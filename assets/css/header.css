@@ -31,13 +31,14 @@ header > img {
 }
 
 .header-text__container h2 {
-	max-width: 750px;
+	max-width: 700px;
 	width: 100%;
 
 	font-family: 'Anton', sans-serif;
 	font-size: 44px;
-	text-align: center;
+	font-weight: 400;
 
+	text-align: center;
 	color: var(--yellow);
 }
 
@@ -51,6 +52,7 @@ header > img {
 
 .header-text__container form input[type="text"] {
 	padding: 0 30px;
+	padding-right: 70px;
 
 	max-width: 954px;
 	width: 100%;
@@ -61,4 +63,26 @@ header > img {
 	border: none;
 	border-radius: 11px;
 	outline: none;
+}
+
+.header-text__container form button {
+	cursor: pointer;
+	margin-left: -60px;
+
+	width: 51px;
+	height: 52px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: var(--black);
+
+	border: none;
+	border-radius: 10px;
+}
+
+.header-text__container form button img {
+	width: 27px;
+	height: 28px;
 }
