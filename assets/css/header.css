@@ -80,9 +80,21 @@ header > img {
 
 	border: none;
 	border-radius: 10px;
+
+	transition: background-color 0.3s ease-in-out;
 }
 
 .header-text__container form button img {
 	width: 27px;
 	height: 28px;
+
+	transition: filter 0.3s ease-in-out;
+}
+
+.header-text__container form button:hover {
+	background-color: var(--yellow);
+}
+
+.header-text__container form button:hover > img {
+	filter: brightness(0) saturate(0%);
 }

@@ -3,6 +3,7 @@
 :root {
 	--yellow: #FFD15B;
 	--black: #1B1B1B;
+	--grey_principal: #7A7A7A;
 	--grey: #EDEDED;
 	--bg-color: #FAFAFA;
 }
@@ -23,4 +24,12 @@ body {
 
 a {
 	text-decoration: none;
+}
+
+main {
+	padding: 30px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
