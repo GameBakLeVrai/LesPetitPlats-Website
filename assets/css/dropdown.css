@@ -1,0 +1,118 @@
+.dropdown-container {    
+    margin-bottom: 20px;
+
+    display: flex;
+    gap: 70px;
+}
+
+.dropdown {
+    position: relative;
+    width: 195px;
+
+    background-color: white;
+    border-radius: 11px;
+}
+
+.dropdown:hover {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dropdown:hover .dropdown-title svg {
+    transform: rotate(180deg);
+}
+
+.dropdown:hover .dropdown-content {
+    position: absolute;
+    display: flex;
+
+    border-bottom-left-radius: 11px;
+    border-bottom-right-radius: 11px;
+}
+
+.dropdown-title {
+    cursor: pointer;
+    padding: 17px 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-title svg {
+    width: 20px;
+}
+
+.dropdown-title p {
+    color: var(--black);
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.dropdown-content {
+    display: none;
+    flex-direction: column;
+
+    background-color: white;
+
+    z-index: 1;
+}
+
+.dropdown-searchbar {
+    padding: 0 16px 17px;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-searchbar input[type="text"] {
+    padding: 8px 10px;
+    padding-right: 24px;
+
+    width: 100%;
+
+    font-size: 14px;
+    color: var(--light-grey);;
+
+    border: 1px solid var(--light-grey);
+    border-radius: 2px;
+
+    outline: none;
+}
+
+.dropdown-searchbar img {
+    margin-left: -22px;
+    width: 14.5px;
+    filter: brightness(0) saturate(0%);
+}
+
+.dropdown-elements {
+    margin-top: 5px;
+    height: 200px;
+
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    border-bottom-left-radius: 11px;
+    border-bottom-right-radius: 11px;
+}
+
+.dropdown-elements p {    
+    padding: 0 16px 0;
+    height: 37px;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.dropdown-elements p:last-child {
+    margin-bottom: 10px;
+}
+
+.dropdown-elements p:hover {
+    background-color: var(--yellow);
+}
