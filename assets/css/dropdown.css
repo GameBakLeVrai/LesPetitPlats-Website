@@ -1,7 +1,6 @@
-.dropdown-container {    
-    margin-bottom: 20px;
-
+.dropdown-container {
     display: flex;
+    flex-wrap: wrap;
     gap: 70px;
 }
 

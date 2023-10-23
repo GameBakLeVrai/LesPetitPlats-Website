@@ -1,3 +1,9 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
 .card {
     width: 380px;
     height: 731px;
@@ -68,6 +74,9 @@
 }
 
 .card-desc {
+    width: 330px;
+    height: 76px;
+    
     font-size: 14px;
 }
 

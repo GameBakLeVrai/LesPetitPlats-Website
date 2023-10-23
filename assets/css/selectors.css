@@ -1,0 +1,26 @@
+.selectors-container {
+	margin-bottom: 20px;
+
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.selection {
+    padding: 0 20px;
+
+    width: 203px;
+    height: 53px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: var(--yellow);
+    border-radius: 11px;
+}
+
+.selection img {
+    cursor: pointer;
+}
