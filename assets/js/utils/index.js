@@ -67,3 +67,20 @@ export const createCard = (receipe) => {
     const card = createElement("div", { class: "card" }, [media, content]);
     return card;
 }
+
+
+export const getIngredients = (recipes) => {
+    let ingredients = [];
+    recipes.forEach((r) => r.ingredients.forEach((ing) => ingredients.push(ing.ingredient.toUpperCase())));
+
+    return [...new Set(ingredients)];
+}
+
+export const getUstensils = (recipes) => {
+    let ustensils = [];
+    recipes.forEach((r) => r.ustensils.forEach((u) => ustensils.push(u.toUpperCase())));
+
+    return [...new Set(ustensils)];
+}
+
+export const getApplicances = (recipes) => [...new Set(recipes.map((r) => r.appliance.toUpperCase()))];
