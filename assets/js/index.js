@@ -1,23 +1,20 @@
 import { recipes } from "./utils/recipes.js";
 import { createCard, createDropdown, getUstensils, getApplicances, getIngredients } from "./utils/index.js";
 
-// Variables initialization
+/* ------------------ Variables initialization ------------------ */
 
 const cardContainer = document.querySelector(".card-container");
 const receipesNumber = document.getElementById("receipesNumbers");
 const dropdownContainer = document.querySelector(".dropdown-container");
 
-// Page initialization
+/* ------------------ Pages initialization ------------------ */
 
 // Get list of all applicances without duplicate
 const ingredients = getIngredients(recipes);
 const appliances = getApplicances(recipes);
 const ustensils = getUstensils(recipes);
 
-console.log("appliances", appliances);
-console.log("ustensils", ustensils);
-console.log("ingredients", ingredients);
-
+// Create dropdown
 [
     {
         name: "Ingrédients",
@@ -33,8 +30,10 @@ console.log("ingredients", ingredients);
     }
 ].forEach((el) => dropdownContainer.appendChild(createDropdown(el.name, el.list)));
 
+// Initialize number of receipe
 receipesNumber.innerText = `${recipes.length} recettes`;
 
+// Cards initialization
 recipes.map((r) => {
     const card = createCard(r);
     cardContainer.appendChild(card);

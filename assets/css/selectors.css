@@ -3,8 +3,12 @@
 
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
 	align-items: center;
+    gap: 15px;
+}
+
+.selectors-container:first-child {
+    justify-content: space-between;
 }
 
 .selection {

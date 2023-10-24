@@ -80,13 +80,36 @@ export const createDropdown = (title, elements) => {
     const loupePicture = createElement("img", { src: loupePath, alt: "Loupe" });
     const dropdownSearchBar = createElement("div", { class: "dropdown-searchbar" }, [searchInput, loupePicture]);
 
-    const selections = elements.map((e) => createElement("p", {}, e));
+    const selections = elements.map((e) => {
+        const p = createElement("p", {}, e);
+
+        // Listening when element is selected
+        p.addEventListener("click", (e) => renderTags(e));
+
+        return p;
+    });
 
     const dropdownElements = createElement("div", { class: "dropdown-elements" }, selections);
     const dropdownContent = createElement("div", { class: "dropdown-content" }, [dropdownSearchBar, dropdownElements]);
 
     const dropdown = createElement("div", { class: "dropdown" }, [dropdownTitle, dropdownContent]);
     return dropdown;
+}
+
+export const renderTags = (e) => {
+    const selectorContainer = document.getElementsByClassName("selectors-container")[1];
+    const selections = [...selectorContainer.querySelectorAll(".selection")].map((s) => s.textContent);
+
+    const createTag = (name) => {
+        const crossPath = "./assets/images/Cross.svg";
+
+        const title = createElement("p", {}, name);
+        const crossPicture = createElement("img", { src: crossPath, alt: "Croix" });
+
+        return createElement("div", { class: "selection" }, [title, crossPicture]);
+    }
+
+    if(!selections.includes(e.target.textContent)) selectorContainer.appendChild(createTag(e.target.textContent));
 }
 
 export const getIngredients = (recipes) => {
