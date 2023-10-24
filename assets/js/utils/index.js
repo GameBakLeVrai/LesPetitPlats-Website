@@ -68,6 +68,26 @@ export const createCard = (receipe) => {
     return card;
 }
 
+export const createDropdown = (title, elements) => {
+    const arrowPath = "./assets/images/Arrow.svg";
+    const loupePath = "./assets/images/Loupe.svg";
+
+    const dropTitle = createElement("p", {}, title);
+    const arrowPicture = createElement("img", { src: arrowPath, alt: "Arrow" });
+    const dropdownTitle = createElement("div", { class: "dropdown-title" }, [dropTitle, arrowPicture]);
+
+    const searchInput = createElement("input", { type: "text", name: title, id: `${title}-search` }, []);
+    const loupePicture = createElement("img", { src: loupePath, alt: "Loupe" });
+    const dropdownSearchBar = createElement("div", { class: "dropdown-searchbar" }, [searchInput, loupePicture]);
+
+    const selections = elements.map((e) => createElement("p", {}, e));
+
+    const dropdownElements = createElement("div", { class: "dropdown-elements" }, selections);
+    const dropdownContent = createElement("div", { class: "dropdown-content" }, [dropdownSearchBar, dropdownElements]);
+
+    const dropdown = createElement("div", { class: "dropdown" }, [dropdownTitle, dropdownContent]);
+    return dropdown;
+}
 
 export const getIngredients = (recipes) => {
     let ingredients = [];
