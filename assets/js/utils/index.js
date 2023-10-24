@@ -106,6 +106,9 @@ export const renderTags = (e) => {
         const title = createElement("p", {}, name);
         const crossPicture = createElement("img", { src: crossPath, alt: "Croix" });
 
+        // Remove element on click
+        crossPicture.addEventListener("click", (e) => e.target.parentElement.remove());
+
         return createElement("div", { class: "selection" }, [title, crossPicture]);
     }
 
