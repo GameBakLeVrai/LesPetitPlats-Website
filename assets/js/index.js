@@ -34,8 +34,9 @@ const ustensils = getUstensils(recipes);
 receipesNumber.innerText = `${recipes.length} recettes`;
 
 // Cards initialization
-renderCards(cardContainer, recipes);
+renderCards(cardContainer, recipes, "");
 
 document.querySelectorAll("input").forEach((i) => i.addEventListener("keyup", () => {
     handleCross(i);
+    renderCards(cardContainer, recipes, i.value);
 }));

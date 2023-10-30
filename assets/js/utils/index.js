@@ -1,3 +1,5 @@
+export const elementFilter = (array, value) => array.filter((data) =>  JSON.stringify(data).toLowerCase().indexOf(value.toLowerCase()) !== -1);
+
 /* ------------------ Creations Functions ------------------ */
 
 // Create an HTML element using elements passed as parameters
@@ -102,15 +104,27 @@ export const createDropdown = (title, elements) => {
 
 /* ------------------ Rendering Functions ------------------ */
 
-export const renderCards = (cardContainer, recipes) => {
-    const tags = document.getElementsByClassName("selectors-container")[1].querySelectorAll(".selection");
-    console.log(tags)
+export const resetCards = (cards) => cards.forEach((c) => c.style.display = "");
 
-    console.log(recipes)
+export const renderCards = (cardContainer, recipes, value) => {
+    const cards = document.querySelector(".card-container").querySelectorAll(".card");
 
-    recipes.map((r) => {
+    // First rendering
+    if(cards.length === 0) recipes.forEach((r) => {
         const card = createCard(r);
         cardContainer.appendChild(card);
+    });
+    
+    const cardsHidden = [...cards].filter((c) => c.style.display === "none");
+    const tags = document.getElementsByClassName("selectors-container")[1].querySelectorAll(".selection");
+
+    if(value.length < 3) return (cardsHidden.length !== recipes.length) ? resetCards(cards) : 0;
+
+    const results = elementFilter(recipes, value);
+
+    cards.forEach((c) => {
+        const result = results.filter((r) => r.name.toLowerCase() === c.querySelector("h3").textContent.toLowerCase());
+        c.style.display = (result.length > 0) ? "" : "none";
     });
 }
 
@@ -169,12 +183,15 @@ export const eraseCross = (e, i) => {
     i.parentElement.lastElementChild.style.marginLeft = (i.id === "search") ? "-60px" : "-22px";
     e.remove();
 
+    const cards = document.querySelector(".card-container").querySelectorAll(".card");
+    resetCards(cards);
+
     renderSelections(i);
 }
 
 export const handleCross = (i) => {
     const cross = i.parentElement.querySelector(".cross");
-    
+
     const crossPicture = createElement("img", { class: (i.id === "search") ? "cross" : "cross cross-dropdown", src: "./assets/images/Cross.svg", alt: "Croix" });
     crossPicture.addEventListener("click", () => eraseCross(crossPicture, i));
 
