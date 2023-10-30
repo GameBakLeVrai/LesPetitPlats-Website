@@ -1,26 +1,28 @@
-// Crée un élément HTML en utilisant les éléments passer en paramètre
+/* ------------------ Creations Functions ------------------ */
+
+// Create an HTML element using elements passed as parameters
 export const createElement = (type, attributes = {}, children = []) => {
-	// Crée un élément HTML
+	// Create an HTML element
 	const element = document.createElement(type);
 
-	// Parcours l'objet attributes passé en paramètre pour définir les attributs de l'élément
+	// Browse the attributes object passed in parameter to define the element's attributes
 	for (const [key, value] of Object.entries(attributes)) {
 		element.setAttribute(key, value);
 	}
 
-	// Parcours les enfants passés en paramètre et les ajoute à l'élément
+	// Browse the children passed as parameters and add them to the
 	for (const child of children) {
-		// Si child fait partie de HTMLElement on l'ajoute en tant qu'enfant à notre HTML Element
+		// If child is part of HTMLElement, we add it as a child to our HTML Element
 		if (child instanceof HTMLElement) {
 			element.appendChild(child);
 		} else {
-			// Sinon on crée un nodeText et on l'ajoute ensuite à notre HTML Element
+			// Otherwise, we create a nodeText and add it to our HTML Element
 			const textNode = document.createTextNode(child);
 			element.appendChild(textNode);
 		}
 	}
 
-	// Retourne l'élément HTML créé
+	// Return the HTML element created
 	return element;
 };
 
@@ -98,6 +100,20 @@ export const createDropdown = (title, elements) => {
     return dropdown;
 }
 
+/* ------------------ Rendering Functions ------------------ */
+
+export const renderCards = (cardContainer, recipes) => {
+    const tags = document.getElementsByClassName("selectors-container")[1].querySelectorAll(".selection");
+    console.log(tags)
+
+    console.log(recipes)
+
+    recipes.map((r) => {
+        const card = createCard(r);
+        cardContainer.appendChild(card);
+    });
+}
+
 export const renderSelections = (e) => {
     if(e.id === "search") return;
     
@@ -127,6 +143,8 @@ export const renderTags = (e) => {
     if(!selections.includes(e.target.textContent)) selectorContainer.appendChild(createTag(e.target.textContent));
 }
 
+/* ------------------ Get Elements Functions  ------------------ */
+
 export const getIngredients = (recipes) => {
     let ingredients = [];
     recipes.forEach((r) => r.ingredients.forEach((ing) => ingredients.push(ing.ingredient.toUpperCase())));
@@ -143,10 +161,26 @@ export const getUstensils = (recipes) => {
 
 export const getApplicances = (recipes) => [...new Set(recipes.map((r) => r.appliance.toUpperCase()))];
 
+
+/* ------------------ Cross Functions  ------------------ */
+
 export const eraseCross = (e, i) => {
     i.value = "";
     i.parentElement.lastElementChild.style.marginLeft = (i.id === "search") ? "-60px" : "-22px";
     e.remove();
 
     renderSelections(i);
+}
+
+export const handleCross = (i) => {
+    const cross = i.parentElement.querySelector(".cross");
+    
+    const crossPicture = createElement("img", { class: (i.id === "search") ? "cross" : "cross cross-dropdown", src: "./assets/images/Cross.svg", alt: "Croix" });
+    crossPicture.addEventListener("click", () => eraseCross(crossPicture, i));
+
+    if(i.value.length < 1) return (cross) ? eraseCross(cross, i) : 0;
+    if(cross) return;
+
+    i.parentElement.lastElementChild.style.marginLeft = "unset";
+    i.parentElement.insertBefore(crossPicture, i.parentElement.lastElementChild);
 }

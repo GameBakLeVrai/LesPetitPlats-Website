@@ -1,5 +1,5 @@
+import { createDropdown, getUstensils, getApplicances, getIngredients, renderCards, handleCross } from "./utils/index.js";
 import { recipes } from "./utils/recipes.js";
-import { createElement, createCard, createDropdown, getUstensils, getApplicances, getIngredients, eraseCross, renderSelections } from "./utils/index.js";
 
 /* ------------------ Variables initialization ------------------ */
 
@@ -34,20 +34,8 @@ const ustensils = getUstensils(recipes);
 receipesNumber.innerText = `${recipes.length} recettes`;
 
 // Cards initialization
-recipes.map((r) => {
-    const card = createCard(r);
-    cardContainer.appendChild(card);
-});
+renderCards(cardContainer, recipes);
 
 document.querySelectorAll("input").forEach((i) => i.addEventListener("keyup", () => {
-    const cross = i.parentElement.querySelector(".cross");
-    const crossPicture = createElement("img", { class: (i.id === "search") ? "cross" : "cross cross-dropdown", src: "./assets/images/Cross.svg", alt: "Croix" });
-
-    crossPicture.addEventListener("click", () => eraseCross(crossPicture, i));
-
-    if(i.value.length < 1) return (cross) ? eraseCross(crossPicture, i) : 0;
-    if(cross) return;
-
-    i.parentElement.lastElementChild.style.marginLeft = "unset";
-    i.parentElement.insertBefore(crossPicture, i.parentElement.lastElementChild);
+    handleCross(i);
 }));
