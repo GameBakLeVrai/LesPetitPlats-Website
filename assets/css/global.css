@@ -44,3 +44,17 @@ main {
 	font-size: 21px;
 	font-weight: 400;
 }
+
+.cross {
+	cursor: pointer;
+	
+	margin-left: -84px !important;
+	margin-right: 10px;
+}
+
+.cross-dropdown {
+	width: 10px !important;
+
+	margin-right: 6px;
+	margin-left: -38px !important;
+}

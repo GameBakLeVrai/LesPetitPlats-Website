@@ -77,6 +77,8 @@ export const createDropdown = (title, elements) => {
     const dropdownTitle = createElement("div", { class: "dropdown-title" }, [dropTitle, arrowPicture]);
 
     const searchInput = createElement("input", { type: "text", name: title, id: `${title}-search` }, []);
+    searchInput.addEventListener("keyup", (e) => renderSelections(e.target));
+
     const loupePicture = createElement("img", { src: loupePath, alt: "Loupe" });
     const dropdownSearchBar = createElement("div", { class: "dropdown-searchbar" }, [searchInput, loupePicture]);
 
@@ -94,6 +96,16 @@ export const createDropdown = (title, elements) => {
 
     const dropdown = createElement("div", { class: "dropdown" }, [dropdownTitle, dropdownContent]);
     return dropdown;
+}
+
+export const renderSelections = (e) => {
+    if(e.id === "search") return;
+    
+    const value = e.value.toUpperCase();
+    const selections = e.closest(".dropdown").querySelector(".dropdown-elements").querySelectorAll("p");
+
+    // Check if value is same as the selection element, if it is not element is hide
+    selections.forEach((s) => s.style.display = (s.textContent.toUpperCase().indexOf(value) > -1) ? "" : "none");
 }
 
 export const renderTags = (e) => {
@@ -130,3 +142,11 @@ export const getUstensils = (recipes) => {
 }
 
 export const getApplicances = (recipes) => [...new Set(recipes.map((r) => r.appliance.toUpperCase()))];
+
+export const eraseCross = (e, i) => {
+    i.value = "";
+    i.parentElement.lastElementChild.style.marginLeft = (i.id === "search") ? "-60px" : "-22px";
+    e.remove();
+
+    renderSelections(i);
+}
