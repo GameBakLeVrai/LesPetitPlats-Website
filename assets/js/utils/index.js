@@ -116,9 +116,28 @@ export const renderCards = (cardContainer, recipes, value) => {
     });
     
     const cardsHidden = [...cards].filter((c) => c.style.display === "none");
-    const tags = document.getElementsByClassName("selectors-container")[1].querySelectorAll(".selection");
 
-    if(value.length < 3) return (cardsHidden.length !== recipes.length) ? resetCards(cards) : 0;
+    const ingredients = Array.from(document.getElementsByClassName("dropdown-elements")[0].querySelectorAll("p")).map((i) => i.textContent);
+    const appliances = Array.from(document.getElementsByClassName("dropdown-elements")[1].querySelectorAll("p")).map((a) => a.textContent);
+    const ustensils = Array.from(document.getElementsByClassName("dropdown-elements")[2].querySelectorAll("p")).map((u) => u.textContent);
+
+    const tagsList = document.getElementsByClassName("selectors-container")[1].querySelectorAll(".selection");
+
+    const tags = Array.from(tagsList).map((t) => {
+        const name = t.querySelector('p').textContent;
+        let category = "";
+
+        if(ingredients.includes(name)) category = "ingredients";
+        if(appliances.includes(name)) category = "appliance";
+        if(ustensils.includes(name)) category = "ustensils";
+        
+        return {
+            "name": name,
+            "category": category,
+        }
+    });
+
+    if(value.length < 3) return (cardsHidden.length !== recipes.length) ? resetCards(cards) : 0;    
 
     const results = elementFilter(recipes, value);
 
@@ -156,25 +175,6 @@ export const renderTags = (e) => {
 
     if(!selections.includes(e.target.textContent)) selectorContainer.appendChild(createTag(e.target.textContent));
 }
-
-/* ------------------ Get Elements Functions  ------------------ */
-
-export const getIngredients = (recipes) => {
-    let ingredients = [];
-    recipes.forEach((r) => r.ingredients.forEach((ing) => ingredients.push(ing.ingredient.toUpperCase())));
-
-    return [...new Set(ingredients)];
-}
-
-export const getUstensils = (recipes) => {
-    let ustensils = [];
-    recipes.forEach((r) => r.ustensils.forEach((u) => ustensils.push(u.toUpperCase())));
-
-    return [...new Set(ustensils)];
-}
-
-export const getApplicances = (recipes) => [...new Set(recipes.map((r) => r.appliance.toUpperCase()))];
-
 
 /* ------------------ Cross Functions  ------------------ */
 

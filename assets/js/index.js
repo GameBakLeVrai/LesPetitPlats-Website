@@ -1,5 +1,7 @@
-import { createDropdown, getUstensils, getApplicances, getIngredients, renderCards, handleCross } from "./utils/index.js";
 import { recipes } from "./utils/recipes.js";
+
+import { createDropdown, renderCards, handleCross } from "./utils/index.js";
+import DropdownFactory from "./factories/DropdownFactory.js";
 
 /* ------------------ Variables initialization ------------------ */
 
@@ -10,9 +12,9 @@ const dropdownContainer = document.querySelector(".dropdown-container");
 /* ------------------ Pages initialization ------------------ */
 
 // Get list of all applicances without duplicate
-const ingredients = getIngredients(recipes);
-const appliances = getApplicances(recipes);
-const ustensils = getUstensils(recipes);
+const ingredients = DropdownFactory.get(recipes, 'ingredients');
+const ustensils = DropdownFactory.get(recipes, 'ustensils');
+const appliances = DropdownFactory.get(recipes, 'appliance');
 
 // Create dropdown
 [
