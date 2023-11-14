@@ -1,44 +1,19 @@
-import { recipes } from "./utils/recipes.js";
+import { handleCross } from "./utils/index.js";
 
-import { createDropdown, renderCards, handleCross } from "./utils/index.js";
-import DropdownFactory from "./factories/DropdownFactory.js";
+import { DropdownFactory } from "./factories/DropdownFactory.js";
+import { CardFactory } from "./factories/CardFactory.js";
 
-/* ------------------ Variables initialization ------------------ */
+/* ------------------ Variables Initialization ------------------ */
 
-const cardContainer = document.querySelector(".card-container");
-const receipesNumber = document.getElementById("receipesNumbers");
-const dropdownContainer = document.querySelector(".dropdown-container");
+export const cardFactory = CardFactory();
+export const dropDownFactory = DropdownFactory();
 
 /* ------------------ Pages initialization ------------------ */
 
-// Get list of all applicances without duplicate
-const ingredients = DropdownFactory.get(recipes, 'ingredients');
-const ustensils = DropdownFactory.get(recipes, 'ustensils');
-const appliances = DropdownFactory.get(recipes, 'appliance');
-
-// Create dropdown
-[
-    {
-        name: "Ingrédients",
-        list: ingredients
-    },
-    {
-        name: "Appareils",
-        list: appliances
-    },
-    {
-        name: "Ustensiles",
-        list: ustensils
-    }
-].forEach((el) => dropdownContainer.appendChild(createDropdown(el.name, el.list)));
-
-// Initialize number of receipe
-receipesNumber.innerText = `${recipes.length} recettes`;
-
-// Cards initialization
-renderCards(cardContainer, recipes, "");
+cardFactory.initialize();
+dropDownFactory.initialize();
 
 document.querySelectorAll("input").forEach((i) => i.addEventListener("keyup", () => {
     handleCross(i);
-    renderCards(cardContainer, recipes, i.value);
+    if(i.id === "search") cardFactory.renderCards(i.value);
 }));

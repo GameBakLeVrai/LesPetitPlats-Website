@@ -1,6 +1,17 @@
-export const elementFilter = (array, value) => array.filter((data) =>  JSON.stringify(data).toLowerCase().indexOf(value.toLowerCase()) !== -1);
+import { cardFactory, dropDownFactory } from "../index.js";
 
 /* ------------------ Creations Functions ------------------ */
+
+export const elementFilter = (array, values) => {
+	return array.filter((data) => {
+		// Vérifier si toutes les valeurs sont présentes dans l'élément
+		return values.every((value) => {
+			return JSON.stringify(data).toLowerCase().indexOf(value.toLowerCase()) !== -1;
+		});
+	});
+};
+  
+export const getImg = (name) => `./assets/images/${name}`;
 
 // Create an HTML element using elements passed as parameters
 export const createElement = (type, attributes = {}, children = []) => {
@@ -29,9 +40,7 @@ export const createElement = (type, attributes = {}, children = []) => {
 };
 
 export const createCard = (receipe) => {
-    const picturePath = `./assets/images/recettes/${receipe.image}`;
-
-    const picture = createElement("img", { src: picturePath, alt: `${receipe.name} image` });
+    const picture = createElement("img", { src: getImg(`recettes/${receipe.image}`), alt: `${receipe.name} image` });
     const time = createElement("span", {}, `${receipe.time}min`);
     const media = createElement("div", { class: "card-img__container" }, [picture, time]);
 
@@ -72,110 +81,6 @@ export const createCard = (receipe) => {
     return card;
 }
 
-export const createDropdown = (title, elements) => {
-    const arrowPath = "./assets/images/Arrow.svg";
-    const loupePath = "./assets/images/Loupe.svg";
-
-    const dropTitle = createElement("p", {}, title);
-    const arrowPicture = createElement("img", { src: arrowPath, alt: "Arrow" });
-    const dropdownTitle = createElement("div", { class: "dropdown-title" }, [dropTitle, arrowPicture]);
-
-    const searchInput = createElement("input", { type: "text", name: title, id: `${title}-search` }, []);
-    searchInput.addEventListener("keyup", (e) => renderSelections(e.target));
-
-    const loupePicture = createElement("img", { src: loupePath, alt: "Loupe" });
-    const dropdownSearchBar = createElement("div", { class: "dropdown-searchbar" }, [searchInput, loupePicture]);
-
-    const selections = elements.map((e) => {
-        const p = createElement("p", {}, e);
-
-        // Listening when element is selected
-        p.addEventListener("click", (e) => renderTags(e));
-
-        return p;
-    });
-
-    const dropdownElements = createElement("div", { class: "dropdown-elements" }, selections);
-    const dropdownContent = createElement("div", { class: "dropdown-content" }, [dropdownSearchBar, dropdownElements]);
-
-    const dropdown = createElement("div", { class: "dropdown" }, [dropdownTitle, dropdownContent]);
-    return dropdown;
-}
-
-/* ------------------ Rendering Functions ------------------ */
-
-export const resetCards = (cards) => cards.forEach((c) => c.style.display = "");
-
-export const renderCards = (cardContainer, recipes, value) => {
-    const cards = document.querySelector(".card-container").querySelectorAll(".card");
-
-    // First rendering
-    if(cards.length === 0) recipes.forEach((r) => {
-        const card = createCard(r);
-        cardContainer.appendChild(card);
-    });
-    
-    const cardsHidden = [...cards].filter((c) => c.style.display === "none");
-
-    const ingredients = Array.from(document.getElementsByClassName("dropdown-elements")[0].querySelectorAll("p")).map((i) => i.textContent);
-    const appliances = Array.from(document.getElementsByClassName("dropdown-elements")[1].querySelectorAll("p")).map((a) => a.textContent);
-    const ustensils = Array.from(document.getElementsByClassName("dropdown-elements")[2].querySelectorAll("p")).map((u) => u.textContent);
-
-    const tagsList = document.getElementsByClassName("selectors-container")[1].querySelectorAll(".selection");
-
-    const tags = Array.from(tagsList).map((t) => {
-        const name = t.querySelector('p').textContent;
-        let category = "";
-
-        if(ingredients.includes(name)) category = "ingredients";
-        if(appliances.includes(name)) category = "appliance";
-        if(ustensils.includes(name)) category = "ustensils";
-        
-        return {
-            "name": name,
-            "category": category,
-        }
-    });
-
-    if(value.length < 3) return (cardsHidden.length !== recipes.length) ? resetCards(cards) : 0;    
-
-    const results = elementFilter(recipes, value);
-
-    cards.forEach((c) => {
-        const result = results.filter((r) => r.name.toLowerCase() === c.querySelector("h3").textContent.toLowerCase());
-        c.style.display = (result.length > 0) ? "" : "none";
-    });
-}
-
-export const renderSelections = (e) => {
-    if(e.id === "search") return;
-    
-    const value = e.value.toUpperCase();
-    const selections = e.closest(".dropdown").querySelector(".dropdown-elements").querySelectorAll("p");
-
-    // Check if value is same as the selection element, if it is not element is hide
-    selections.forEach((s) => s.style.display = (s.textContent.toUpperCase().indexOf(value) > -1) ? "" : "none");
-}
-
-export const renderTags = (e) => {
-    const selectorContainer = document.getElementsByClassName("selectors-container")[1];
-    const selections = [...selectorContainer.querySelectorAll(".selection")].map((s) => s.textContent);
-
-    const createTag = (name) => {
-        const crossPath = "./assets/images/Cross.svg";
-
-        const title = createElement("p", {}, name);
-        const crossPicture = createElement("img", { src: crossPath, alt: "Croix" });
-
-        // Remove element on click
-        crossPicture.addEventListener("click", (e) => e.target.parentElement.remove());
-
-        return createElement("div", { class: "selection" }, [title, crossPicture]);
-    }
-
-    if(!selections.includes(e.target.textContent)) selectorContainer.appendChild(createTag(e.target.textContent));
-}
-
 /* ------------------ Cross Functions  ------------------ */
 
 export const eraseCross = (e, i) => {
@@ -183,10 +88,8 @@ export const eraseCross = (e, i) => {
     i.parentElement.lastElementChild.style.marginLeft = (i.id === "search") ? "-60px" : "-22px";
     e.remove();
 
-    const cards = document.querySelector(".card-container").querySelectorAll(".card");
-    resetCards(cards);
-
-    renderSelections(i);
+    cardFactory.renderCards();
+    dropDownFactory.renderSelections(i);
 }
 
 export const handleCross = (i) => {
