@@ -58,3 +58,7 @@ main {
 	margin-right: 6px;
 	margin-left: -38px !important;
 }
+
+.error {
+	font-size: 1.2em;
+}

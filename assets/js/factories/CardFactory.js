@@ -27,6 +27,7 @@ export const CardFactory = () => {
     };
 
     const renderCards = () => {
+        const error = document.getElementsByClassName("error")[0];
         let input = document.getElementById("search").value;
         if(input.length < 3) input = "";
 
@@ -35,12 +36,16 @@ export const CardFactory = () => {
 
         const tagsInfo = tags.map((t) => t.textContent);
         const tagsResults = (tagsInfo.length !== 0) ? elementFilter(recipes, tagsInfo) : [];
-        const search = (input !== "") ? elementFilter((tagsInfo.length !== 0 ? tagsResults : recipes), [input]) : [];
+        const search = (input !== "") ? elementFilter((tagsInfo.length !== 0) ? tagsResults : recipes, [input]) : [];
 
-        if(tagsResults.length === 0 && search.length === 0) return resetCards();
+        if(tagsResults.length === 0 && search.length === 0 && input === "") return resetCards();
+        const cardRender = (input !== "") ? search : new Set([...tagsResults, ...search]);
 
-        let cardRender = (input !== "") ? search : new Set([...tagsResults, ...search]);
-        cardRender.forEach((card) => setCards(card));
+        if(cardRender.length === 0) error.innerText = `Aucune recette ne contient '${input}' vous pouvez chercher « tarte aux pommes », « poisson », etc.`;
+        if(cardRender.length !== 0) {
+            if(error.textContent.length !== 0) error.innerText = "";
+            cardRender.forEach((card) => setCards(card));
+        }
     }
 
     const setCards = (card) => {
